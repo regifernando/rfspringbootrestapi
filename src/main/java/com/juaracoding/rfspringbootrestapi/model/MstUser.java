@@ -4,30 +4,31 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import com.juaracoding.rfspringbootrestapi.constant.ConstantConfig;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 import java.util.Date;
 
-/*
-    Modul Code = 05
- */
 @Entity
 @Table(name = "MstUser")
-public class User {
+public class MstUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IDUser")
     private Long idUser;
-    @Column(name = "NamaLengkap")
-    private String namaLengkap;
     @Column(name = "Username",unique = true,nullable = false)
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String username;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Column(name = "Email",unique = true,nullable = false)
     private String email;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Column(name = "NoHp",unique = true,nullable = false)
     private String noHp;
     @Column(name = "Alamat")
@@ -39,15 +40,11 @@ public class User {
     @Column(name = "Token")
     private String token;
 
-    @ManyToOne
-    @JoinColumn(name = "IDAkses",foreignKey = @ForeignKey(name = "FKToAkses"))
-    private Akses akses;
-
     /*start audit trails*/
-    @Column(name = "CreatedBy",updatable = false,nullable = false)
-    private Long createdBy = 1L;
-    @Column(name = "CreatedAt",updatable = false,nullable = false, columnDefinition = ConstantConfig.GENERATE_TIME_STAMP)// INI UNTUK KASIH DEFAULT WAKTU KE SERVER DATABASE
-    private Date createdAt = new Date();
+    @Column(name = "CreatedBy",updatable = false)
+    private Long createdBy;
+    @Column(name = "CreatedAt",updatable = false)
+    private Date createdAt;
     @Column(name = "ModifiedBy",insertable = false)
     private Long modifiedBy;
     @Column(name = "ModifiedAt",insertable = false)
@@ -55,22 +52,6 @@ public class User {
     @Column(name = "IsActive")
     private Boolean isActive ;
     /*end audit trails*/
-
-    public Akses getAkses() {
-        return akses;
-    }
-
-    public void setAkses(Akses akses) {
-        this.akses = akses;
-    }
-
-    public String getNamaLengkap() {
-        return namaLengkap;
-    }
-
-    public void setNamaLengkap(String namaLengkap) {
-        this.namaLengkap = namaLengkap;
-    }
 
     public String getToken() {
         return token;
